@@ -32,10 +32,10 @@ ActiveRecord::Schema.define(:version => 0) do
 	end
 
 	class Article < ActiveRecord::Base
-		# is_translatable :title, :body
+		is_translatable :title, :body
 	end
 
 	class Note < ActiveRecord::Base
-		# is_translatable :description
+		is_translatable :description
 	end
 end
