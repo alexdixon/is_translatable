@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(:version => 0) do
 	end
 
 	create_table :notes do |t|
-		t.string :description
+		t.string :body # for dupe tests with articles
 	end
 
 	create_table :translations do |t|
