@@ -33,7 +33,7 @@ module IsTranslatable
         locale ||= I18n.locale
         t = translations.find_by_kind(kind.to_s, :conditions => {:locale => locale.to_s})
         t ||= find_translation(kind, locale)
-        t.nil? ? '' : t.translation
+        t.translation unless t.nil?
       end
 
     protected
