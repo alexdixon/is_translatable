@@ -13,7 +13,7 @@ module IsTranslatable
       klass.class_eval do
         include IsTranslatable::Methods::InstanceMethods
 
-        has_many :translations, :as => :translatable, :dependent => :destroy
+        has_many :translations, :as => :translatable, :dependent => :destroy, :autosave => true
         accepts_nested_attributes_for :translations
       end
     end
@@ -21,11 +21,22 @@ module IsTranslatable
     module InstanceMethods
       def set_translation(kind, t, locale=nil)
         locale ||= I18n.locale
-        translations.build({:kind => kind, :translation => t, :locale => locale})
+        translations.build({:kind => kind.to_s, :translation => t, :locale => locale.to_s})
       end
   
       def get_translation(kind, locale=nil)
-        translations.find_by_kind(kind, :conditions => {:locale => locale})
+        locale ||= I18n.locale
+        t = translations.find_by_kind(kind.to_s, :conditions => {:locale => locale.to_s})
+        t ||= find_translation(kind, locale)
+        t.nil? ? '' : t.translation
+      end
+
+    protected
+      def find_translation(kind, locale)
+        translations.each do |t|
+          return t if t.kind == kind.to_s && t.locale == locale.to_s
+        end
+        nil
       end
     end
   end
