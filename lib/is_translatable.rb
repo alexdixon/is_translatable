@@ -13,6 +13,9 @@ module IsTranslatable
 
     def set_translation(kind, t, locale_override=nil)
     end
+
+	def get_translation(kind, locale_override=nil)
+	end
   end
 end
 

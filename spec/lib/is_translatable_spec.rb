@@ -24,7 +24,20 @@ describe IsTranslatable do
       context 'with translated title' do
         before {@article.set_translation(:title, @titles[:es])}
         it {should be_valid}
-        it "should check that it's actually translated"
+
+        it {subject.get_translation(:title).should == @titles[:es]}
+
+		context 'loaded from db' do
+			before :each do
+				@article.save!
+				@loaded_article = Article.find(@article.id)
+			end
+			subject{@loaded_article}
+
+			it {should be_valid}
+
+			it {subject.get_translation(:title).should == @titles[:es]}
+		end
       end
 
       context 'with translated title and locale override' do
