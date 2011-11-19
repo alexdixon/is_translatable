@@ -21,7 +21,12 @@ module IsTranslatable
     module InstanceMethods
       def set_translation(kind, t, locale=nil)
         locale ||= I18n.locale
-        translations.build({:kind => kind.to_s, :translation => t, :locale => locale.to_s})
+        t_obj = find_translation(kind, locale)
+        if t_obj.nil?
+          translations.build({:kind => kind.to_s, :translation => t, :locale => locale.to_s})
+        else
+          t_obj.translation = t
+        end
       end
   
       def get_translation(kind, locale=nil)

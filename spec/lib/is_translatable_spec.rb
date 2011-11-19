@@ -32,6 +32,13 @@ describe IsTranslatable do
 
         it {subject.get_translation(:title).should == @titles[:es]}
 
+        context 'set twice' do
+          before {@article.set_translation(:title, 'spanish override')}
+
+          it {subject.translations.length.should == 1}
+          it {subject.get_translation(:title).should == 'spanish override'}
+        end
+
         context 'loaded from db' do
           before :each do
             @article.save!
