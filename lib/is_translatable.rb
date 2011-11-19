@@ -1,4 +1,5 @@
 require 'active_record'
+require 'translation'
 
 module IsTranslatable
   module ActiveRecordExtension
@@ -9,13 +10,24 @@ module IsTranslatable
 
   module Methods
     def self.included(klass)
+      klass.class_eval do
+        include IsTranslatable::Methods::InstanceMethods
+
+        has_many :translations, :as => :translatable, :dependent => :destroy
+        accepts_nested_attributes_for :translations
+      end
     end
 
-    def set_translation(kind, t, locale_override=nil)
+    module InstanceMethods
+      def set_translation(kind, t, locale=nil)
+        locale ||= I18n.locale
+        translations.build({:kind => kind, :translation => t, :locale => locale})
+      end
+  
+      def get_translation(kind, locale=nil)
+        translations.find_by_kind(kind, :conditions => {:locale => locale})
+      end
     end
-
-	def get_translation(kind, locale_override=nil)
-	end
   end
 end
 

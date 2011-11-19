@@ -11,6 +11,11 @@ describe IsTranslatable do
     }
   end
 
+  it 'should test default locale (just using the actual field)'
+  it 'should only allow translations for translatable fields'
+  it 'should delete translations'
+  it 'should be even more awesome'
+
   context 'article translations' do
     before {@article = Article.new(:title => 'Translations now easier', :body => 'is_translatable plugin makes translating easier...')}
     subject {@article}
@@ -27,17 +32,17 @@ describe IsTranslatable do
 
         it {subject.get_translation(:title).should == @titles[:es]}
 
-		context 'loaded from db' do
-			before :each do
-				@article.save!
-				@loaded_article = Article.find(@article.id)
-			end
-			subject{@loaded_article}
+        context 'loaded from db' do
+          before :each do
+            @article.save!
+            @loaded_article = Article.find(@article.id)
+          end
+          subject{@loaded_article}
 
-			it {should be_valid}
+          it {should be_valid}
 
-			it {subject.get_translation(:title).should == @titles[:es]}
-		end
+          it {subject.get_translation(:title).should == @titles[:es]}
+        end
       end
 
       context 'with translated title and locale override' do
