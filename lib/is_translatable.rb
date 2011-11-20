@@ -3,7 +3,11 @@ require 'translation'
 
 module IsTranslatable
   module ActiveRecordExtension
-    def is_translatable(*kinds)
+    def translatable(*kinds)
+      class_attribute :translatable_kinds
+      self.translatable_kinds ||= {}
+      self.translatable_kinds = kinds.map(&:to_s)
+
       include IsTranslatable::Methods
     end
   end
@@ -20,6 +24,7 @@ module IsTranslatable
 
     module InstanceMethods
       def set_translation(kind, t, locale=nil)
+        validate_kind(kind)
         locale ||= I18n.locale
         t_obj = find_translation(kind, locale)
         if t_obj.nil?
@@ -30,10 +35,18 @@ module IsTranslatable
       end
   
       def get_translation(kind, locale=nil)
+        validate_kind(kind)
         locale ||= I18n.locale
         t = translations.find_by_kind(kind.to_s, :conditions => {:locale => locale.to_s})
         t ||= find_translation(kind, locale)
         t.translation unless t.nil?
+      end
+
+      def remove_translation(kind, locale = nil)
+        validate_kind(kind)
+        locale ||= I18n.locale
+        t = find_translation(kind, locale)
+        t.mark_for_destruction unless t.nil?
       end
 
     protected
@@ -42,6 +55,10 @@ module IsTranslatable
           return t if t.kind == kind.to_s && t.locale == locale.to_s
         end
         nil
+      end
+
+      def validate_kind(kind)
+        raise ArgumentError.new("#{kind} is not a translatable field") unless translatable_kinds.include?(kind.to_s)
       end
     end
   end

@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(:version => 0) do
   create_table :articles do |t|
     t.string :title
     t.string :body
+	t.string :non_translatable
   end
 
   create_table :notes do |t|
@@ -32,10 +33,10 @@ ActiveRecord::Schema.define(:version => 0) do
   end
 
   class Article < ActiveRecord::Base
-    is_translatable :title, :body
+    translatable :title, :body
   end
 
   class Note < ActiveRecord::Base
-    is_translatable :description
+    translatable :description
   end
 end
