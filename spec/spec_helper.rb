@@ -5,9 +5,6 @@ require 'is_translatable'
 require 'sqlite3'
 require 'active_record'
 
-RSpec.configure do |config|
-end
-
 # Create test schema and models
 
 ActiveRecord::Base.configurations = {'sqlite3' => {:adapter => 'sqlite3', :database => ':memory:'}}
@@ -17,7 +14,7 @@ ActiveRecord::Schema.define(:version => 0) do
   create_table :articles do |t|
     t.string :title
     t.string :body
-	t.string :non_translatable
+    t.string :non_translatable
   end
 
   create_table :notes do |t|
@@ -37,6 +34,16 @@ ActiveRecord::Schema.define(:version => 0) do
   end
 
   class Note < ActiveRecord::Base
-    translatable :description
+    translatable :body
   end
 end
+
+RSpec.configure do |config|
+  config.mock_with :rspec
+  config.before :each do
+    Article.destroy_all
+    Note.destroy_all
+    Translation.destroy_all
+  end
+end
+

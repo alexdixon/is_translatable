@@ -79,24 +79,27 @@ describe IsTranslatable do
     before :each do
       # Creating these in a couple of different ways to excersize the code a little better.
       # Also putting in overlapping ids to make sure we're loading for the right table.
-      @article1 = Article.create!(:title => 'Article Title', :body => 'Article Body', :id => 1)
+      @article1 = Article.new(:title => 'Article Title', :body => 'Article Body')
+      @article1.id = 1
       @article1.set_translation(:title, 'es A1T', :es)
       @article1.set_translation(:title, 'pt-BR A1T', :'pt-BR')
       @article1.set_translation(:body, 'pt-BR A1B', :'pt-BR')
       @article1.save!
 
-      @article2 = Article.new(:title => 'Article2 Title', :body => 'Article2 Body', :id => 2)
-      @article2.set_translation(:title, 'es A2T', :es)
-      @article2.set_translation(:title, 'pt-BR A2T', :'pt-BR')
-      @article2.set_translation(:body, 'pt-BR A2B', :'pt-BR')
-      @article2.save!
+      article2 = Article.new(:title => 'Article2 Title', :body => 'Article2 Body')
+      article2.id = 2
+      article2.set_translation(:title, 'es A2T', :es)
+      article2.set_translation(:title, 'pt-BR A2T', :'pt-BR')
+      article2.set_translation(:body, 'pt-BR A2B', :'pt-BR')
+      article2.save!
+      @article2 = Article.find(article2.id)
 
-      @note1 = Article.create!(:body => 'Note Body', :id => 1)
+      @note1 = Note.create!(:body => 'Note Body')
       @note1.set_translation(:body, 'pt-BR N1B', :'pt-BR')
       @note1.set_translation(:body, 'es N1B', :'es')
       @note1.save!
 
-      @note2 = Article.new(:body => 'Note2 Body', :id => 2)
+      @note2 = Note.new(:body => 'Note2 Body')
       @note2.set_translation(:body, 'pt-BR N2B', :'pt-BR')
       @note2.set_translation(:body, 'es N2B', :'es')
       @note2.save!
@@ -146,7 +149,7 @@ describe IsTranslatable do
       end
 
       context 'article1 reloaded' do
-        before { @article1_loaded = Article.find(1) }
+        before { @article1_loaded = Article.find(@article1.id) }
         subject { @article1_loaded }
 
         it {subject.get_translation(:title, :es).should == 'es A1T'}
