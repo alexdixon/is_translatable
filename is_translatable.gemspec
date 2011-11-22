@@ -10,11 +10,11 @@ Gem::Specification.new do |s|
   s.authors     = ["Alex Dixon"]
   s.email       = ["dixo0015+is_translatable@gmail.com"]
   s.homepage    = "https://github.com/alexdixon/is_translatable"
-  s.summary     = "TODO: Summary of IsTranslatable."
-  s.description = "TODO: Description of IsTranslatable."
+  s.summary     = "Simple translation of dynamic db fields."
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.markdown"]
   s.test_files = Dir["spec/**/*"]
+  s.require_paths = ["lib"]
 
   s.add_dependency "rails", "~> 3.1.2"
 
