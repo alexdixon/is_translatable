@@ -24,8 +24,6 @@ Or if you want to override the locale:
     t.set_translation(:title, 'In French', :fr) # specific override
     t.get_translation(:title, :fr) # 'In French'
 
-TODO: hookup behavior for default locale and fallbacking.
-
 ## Installation
 
 Add the following line to your Gemfile:
