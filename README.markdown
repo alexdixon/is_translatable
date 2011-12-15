@@ -1,7 +1,5 @@
 # is\_translatable
 
-(development in progress)
-
 This is a simple library geared towards translating dynamic text in your database.
 Unlike many similar libaries, is_translatable uses a single table for all translations, so once it's hooked up you won't
 need to do anything fancy in your DB migrations to add support for translations.
