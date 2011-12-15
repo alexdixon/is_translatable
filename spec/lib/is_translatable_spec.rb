@@ -77,7 +77,6 @@ describe IsTranslatable do
         before {@article.set_translation(:title, @titles[:fr], :fr)}
         it {should be_valid}
 
-        it 'should allow specifying fallback behavior?'
         it {subject.get_translation(:title).should == nil}
         it {subject.get_translation(:title, :fr).should == @titles[:fr]}
       end
