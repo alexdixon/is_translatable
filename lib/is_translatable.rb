@@ -26,6 +26,10 @@ module IsTranslatable
       def set_translation(kind, t, locale=nil)
         validate_kind(kind)
         locale ||= I18n.locale
+        if locale.to_s == I18n.default_locale.to_s
+          write_attribute(kind, t)
+          return
+        end
         t_obj = find_translation(kind, locale)
         if t_obj.nil?
           translations.build({:kind => kind.to_s, :translation => t, :locale => locale.to_s})
@@ -37,6 +41,7 @@ module IsTranslatable
       def get_translation(kind, locale=nil)
         validate_kind(kind)
         locale ||= I18n.locale
+        return read_attribute(kind) if locale.to_s == I18n.default_locale.to_s
         t = translations.find_by_kind(kind.to_s, :conditions => {:locale => locale.to_s})
         t ||= find_translation(kind, locale)
         t.translation unless t.nil?

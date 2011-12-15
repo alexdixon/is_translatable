@@ -11,7 +11,6 @@ describe IsTranslatable do
     }
   end
 
-  it 'should test default locale (just using the actual field)'
   it 'should be even more awesome'
 
   context 'article translations' do
@@ -20,6 +19,17 @@ describe IsTranslatable do
 
     specify {subject.save.should be_true}
     it {should be_valid}
+
+    context 'with default locale' do
+      before {I18n.locale = :en}
+      it {subject.get_translation(:title).should == @titles[:en]}
+
+      context 'with title translation' do
+        before {@article.set_translation(:title, 'override')}
+        it {subject.get_translation(:title).should == 'override'}
+        it {subject.title.should == 'override'}
+      end
+    end
 
     context 'with spanish locale' do
       before {I18n.locale = :es}
