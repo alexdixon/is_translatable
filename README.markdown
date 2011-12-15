@@ -1,9 +1,7 @@
 # is\_translatable
 
-(development in progress)
-
 This is a simple library geared towards translating dynamic text in your database.
-Unlike most similar libaries, is_translatable uses a single table for all translations, so once it's hooked up you won't
+Unlike many similar libaries, is_translatable uses a single table for all translations, so once it's hooked up you won't
 need to do anything fancy in your DB migrations to add support for translations.
 
 ## Usage
@@ -30,7 +28,13 @@ TODO: hookup behavior for default locale and fallbacking.
 
 ## Installation
 
-TODO: create a migration generator, and make 'gem install is_translatable' work.
+Add the following line to your Gemfile:
+
+    gem 'is_translatable'
+
+Then run:
+
+    bundle exec rails g is_translatable_migration
 
 ## Credits
 
